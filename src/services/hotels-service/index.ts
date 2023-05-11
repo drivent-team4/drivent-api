@@ -10,16 +10,17 @@ async function listHotels(userId: number) {
     throw notFoundError();
   }
   const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
-
-  if (!ticket || ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
-    throw cannotListHotelsError();
-  }
+  console.log({ ticket });
+  // if (!ticket || ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
+  //   throw cannotListHotelsError();
+  // }
 }
 
 async function getHotels(userId: number) {
   await listHotels(userId);
 
   const hotels = await hotelRepository.findHotels();
+  console.log({ hotels });
   if (!hotels || hotels.length === 0) {
     throw notFoundError();
   }
