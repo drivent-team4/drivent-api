@@ -38,7 +38,9 @@ async function main() {
       name: 'Caribben Hotel',
     },
   });
-  if (VictoriaHotel && MalibuHotel && CaribbenHotel) {
+  const room = await prisma.room.findFirst();
+
+  if (VictoriaHotel && MalibuHotel && CaribbenHotel && !room) {
     await prisma.room.createMany({
       data: [
         {
