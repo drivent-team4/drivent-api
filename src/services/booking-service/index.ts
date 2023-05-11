@@ -4,7 +4,9 @@ import { cannotBookingError } from '@/errors/cannot-booking-error';
 import bookingRepository from '@/repositories/booking-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import roomRepository from '@/repositories/room-repository';
+import hotelRepository from '@/repositories/hotel-repository';
 import ticketsRepository from '@/repositories/tickets-repository';
+import { createBookingArr } from '@/utils/createBookingArr';
 
 async function checkEnrollmentTicket(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
@@ -30,6 +32,14 @@ async function getBooking(userId: number) {
   if (!booking) throw notFoundError();
 
   return booking;
+}
+
+async function listBookingByHotelId(userId: number, hotelId: number) {
+  const { Rooms } = await hotelRepository.findRoomsByHotelId(hotelId);
+
+  const roomBookingInfos = await createBookingArr(Rooms);
+
+  return roomBookingInfos;
 }
 
 async function bookingRoomById(userId: number, roomId: number) {
@@ -62,6 +72,7 @@ const bookingService = {
   changeBookingRoomById,
   checkEnrollmentTicket,
   checkValidBooking,
+  listBookingByHotelId,
 };
 
 export default bookingService;
