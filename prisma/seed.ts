@@ -23,73 +23,88 @@ async function main() {
       ],
     });
   }
-  const room = await prisma.room.findFirst();
-  if (!room) {
+  const VictoriaHotel = await prisma.hotel.findFirst({
+    where: {
+      name: 'Victoria Hotel',
+    },
+  });
+  const MalibuHotel = await prisma.hotel.findFirst({
+    where: {
+      name: 'Malibu Hotel',
+    },
+  });
+  const CaribbenHotel = await prisma.hotel.findFirst({
+    where: {
+      name: 'Caribben Hotel',
+    },
+  });
+  if (VictoriaHotel && MalibuHotel && CaribbenHotel) {
     await prisma.room.createMany({
       data: [
         {
           name: '1',
           capacity: 1,
-          hotelId: 1,
+          hotelId: VictoriaHotel.id,
         },
         {
           name: '2',
           capacity: 1,
-          hotelId: 1,
+          hotelId: VictoriaHotel.id,
         },
         {
           name: '3',
           capacity: 2,
-          hotelId: 1,
+          hotelId: VictoriaHotel.id,
         },
         {
           name: '4',
           capacity: 2,
-          hotelId: 1,
+          hotelId: VictoriaHotel.id,
         },
         {
           name: '5',
-          capacity: 3,
-          hotelId: 1,
+          capacity: 2,
+          hotelId: VictoriaHotel.id,
         },
         {
           name: '6',
           capacity: 2,
-          hotelId: 1,
+          hotelId: VictoriaHotel.id,
         },
       ],
     });
+
     await prisma.room.createMany({
       data: [
         {
           name: '1',
           capacity: 2,
-          hotelId: 2,
+          hotelId: MalibuHotel.id,
         },
         {
           name: '2',
           capacity: 3,
-          hotelId: 2,
+          hotelId: MalibuHotel.id,
         },
         {
           name: '3',
           capacity: 1,
-          hotelId: 2,
+          hotelId: MalibuHotel.id,
         },
         {
           name: '4',
-          capacity: 1,
-          hotelId: 2,
+          capacity: 2,
+          hotelId: MalibuHotel.id,
         },
         {
           name: '5',
           capacity: 3,
-          hotelId: 2,
+          hotelId: MalibuHotel.id,
         },
         {
           name: '6',
-          capacity: 1,
-          hotelId: 2,
+          capacity: 2,
+          hotelId: MalibuHotel.id,
         },
       ],
     });
@@ -99,32 +114,32 @@ async function main() {
         {
           name: '1',
           capacity: 1,
-          hotelId: 3,
+          hotelId: CaribbenHotel.id,
         },
         {
           name: '2',
           capacity: 2,
-          hotelId: 3,
+          hotelId: CaribbenHotel.id,
         },
         {
           name: '3',
           capacity: 1,
-          hotelId: 3,
+          hotelId: CaribbenHotel.id,
         },
         {
           name: '4',
           capacity: 2,
-          hotelId: 3,
+          hotelId: CaribbenHotel.id,
         },
         {
           name: '5',
           capacity: 1,
-          hotelId: 3,
+          hotelId: CaribbenHotel.id,
         },
         {
           name: '6',
           capacity: 3,
-          hotelId: 3,
+          hotelId: CaribbenHotel.id,
         },
       ],
     });
