@@ -3,6 +3,32 @@ import dayjs from 'dayjs';
 const prisma = new PrismaClient();
 
 async function main() {
+  const ticketType = await prisma.ticketType.findFirst();
+  if (!ticketType) {
+    await prisma.ticketType.createMany({
+      data: [
+        {
+          name: 'Online',
+          price: 100,
+          isRemote: true,
+          includesHotel: false,
+        },
+        {
+          name: 'Presencial',
+          price: 250,
+          isRemote: false,
+          includesHotel: false,
+        },
+        {
+          name: 'Presencial',
+          price: 600,
+          isRemote: false,
+          includesHotel: true,
+        },
+      ],
+    });
+  }
+  
   const hotel = await prisma.hotel.findFirst();
   if (!hotel) {
     await prisma.hotel.createMany({
