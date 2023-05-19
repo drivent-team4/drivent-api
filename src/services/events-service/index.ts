@@ -5,7 +5,7 @@ import eventRepository from '@/repositories/event-repository';
 import { exclude } from '@/utils/prisma-utils';
 
 async function getFirstEvent(): Promise<GetFirstEventResult> {
-  const event = await eventRepository.findFirst();
+  const event = (await eventRepository.findFirst()) as Event;
   if (!event) throw notFoundError();
 
   return exclude(event, 'createdAt', 'updatedAt');
@@ -14,7 +14,7 @@ async function getFirstEvent(): Promise<GetFirstEventResult> {
 export type GetFirstEventResult = Omit<Event, 'createdAt' | 'updatedAt'>;
 
 async function isCurrentEventActive(): Promise<boolean> {
-  const event = await eventRepository.findFirst();
+  const event = (await eventRepository.findFirst()) as Event;
   if (!event) return false;
 
   const now = dayjs();
