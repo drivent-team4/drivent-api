@@ -17,6 +17,19 @@ export async function listBooking(req: AuthenticatedRequest, res: Response, next
   }
 }
 
+export async function listBookingWithHotel(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const { userId } = req;
+    const booking = await bookingService.getBookingWithHotel(userId);
+    return res.status(httpStatus.OK).send({
+      id: booking.id,
+      Room: booking.Room,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function listBookingByHotelId(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { userId } = req;
   const { hotelId } = req.params;
@@ -54,6 +67,31 @@ export async function changeBooking(req: AuthenticatedRequest, res: Response, ne
 
     return res.status(httpStatus.OK).send({
       bookingId: booking.id,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function countBookingsByRoomId(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const { roomId } = req.body as Record<string, number>;
+
+    const count = await bookingService.countBookingsByRoomId(roomId);
+
+    return res.status(httpStatus.OK).send({ bookingsCount: count });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function bookingsByRoomId(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const { roomId } = req.params;
+
+    const booking = await bookingService.listBookingsByRoomId(Number(roomId));
+    return res.status(httpStatus.OK).send({
+      booking,
     });
   } catch (error) {
     next(error);
