@@ -72,6 +72,12 @@ async function countBookingsByRoomId(roomId: number) {
   return bookingCountByRoomId;
 }
 
+async function listBookingsByRoomId(roomId: number) {
+  const bookingsByRoomId = await bookingRepository.findByRoomId(roomId);
+
+  return bookingsByRoomId;
+}
+
 const bookingService = {
   bookingRoomById,
   getBooking,
@@ -80,6 +86,7 @@ const bookingService = {
   checkValidBooking,
   listBookingByHotelId,
   countBookingsByRoomId,
+  listBookingsByRoomId,
 };
 
 export default bookingService;

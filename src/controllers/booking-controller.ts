@@ -71,3 +71,16 @@ export async function countBookingsByRoomId(req: AuthenticatedRequest, res: Resp
     next(error);
   }
 }
+
+export async function bookingsByRoomId(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const { roomId } = req.params;
+
+    const booking = await bookingService.listBookingsByRoomId(Number(roomId));
+    return res.status(httpStatus.OK).send({
+      booking,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
