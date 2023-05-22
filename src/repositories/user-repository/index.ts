@@ -21,9 +21,24 @@ async function create(data: Prisma.UserUncheckedCreateInput) {
   });
 }
 
+async function findByGithubEmail(githubEmail: string, select?: Prisma.UserSelect) {
+  const params: Prisma.UserFindUniqueArgs = {
+    where: {
+      githubEmail,
+    },
+  };
+
+  if (select) {
+    params.select = select;
+  }
+
+  return prisma.user.findUnique(params);
+}
+
 const userRepository = {
   findByEmail,
   create,
+  findByGithubEmail,
 };
 
 export default userRepository;

@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique @db.VarChar(255)
-  password   String       @db.VarChar(255)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  Session    Session[]    
-  Enrollment Enrollment[] 
-  Booking    Booking[]    
+  id          Int          @id @default(autoincrement())
+  email       String       @unique @db.VarChar(255)
+  password    String       @db.VarChar(255)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  githubEmail String?      @unique @db.VarChar(255)
+  Session     Session[]
+  Enrollment  Enrollment[]
+  Booking     Booking[]
 }
 
 model Session {
@@ -65,7 +66,7 @@ model Address {
   neighborhood  String     @db.VarChar(255)
   addressDetail String?    @db.VarChar(255)
   enrollmentId  Int        @unique
-  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id],  onDelete: Cascade)
+  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }
@@ -84,9 +85,9 @@ model TicketType {
 model Ticket {
   id           Int          @id @default(autoincrement())
   ticketTypeId Int
-  TicketType   TicketType   @relation(fields: [ticketTypeId], references: [id],  onDelete: Cascade)
+  TicketType   TicketType   @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)
   enrollmentId Int
-  Enrollment   Enrollment   @relation(fields: [enrollmentId], references: [id],  onDelete: Cascade)
+  Enrollment   Enrollment   @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
   status       TicketStatus
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -101,7 +102,7 @@ enum TicketStatus {
 model Payment {
   id             Int      @id @default(autoincrement())
   ticketId       Int
-  Ticket         Ticket   @relation(fields: [ticketId], references: [id],  onDelete: Cascade)
+  Ticket         Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   value          Int
   cardIssuer     String
   cardLastDigits String
@@ -123,7 +124,7 @@ model Room {
   name      String
   capacity  Int
   hotelId   Int
-  Hotel     Hotel     @relation(fields: [hotelId], references: [id],  onDelete: Cascade)
+  Hotel     Hotel     @relation(fields: [hotelId], references: [id], onDelete: Cascade)
   Booking   Booking[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -131,15 +132,15 @@ model Room {
 
 model Booking {
   id        Int      @id @default(autoincrement())
-  User      User     @relation(fields: [userId], references: [id],  onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  Room      Room     @relation(fields: [roomId], references: [id],  onDelete: Cascade)
+  Room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Teste {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 }

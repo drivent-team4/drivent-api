@@ -34,6 +34,13 @@ async function getBooking(userId: number) {
   return booking;
 }
 
+async function getBookingWithHotel(userId: number) {
+  const booking = await bookingRepository.findByUserIdWithHotel(userId);
+  if (!booking) throw notFoundError();
+
+  return booking;
+}
+
 async function listBookingByHotelId(userId: number, hotelId: number) {
   const { Rooms } = await hotelRepository.findRoomsByHotelId(hotelId);
 
@@ -66,13 +73,28 @@ async function changeBookingRoomById(userId: number, roomId: number) {
   });
 }
 
+async function countBookingsByRoomId(roomId: number) {
+  const bookingCountByRoomId = await bookingRepository.countByRoomId(roomId);
+
+  return bookingCountByRoomId;
+}
+
+async function listBookingsByRoomId(roomId: number) {
+  const bookingsByRoomId = await bookingRepository.findByRoomId(roomId);
+
+  return bookingsByRoomId;
+}
+
 const bookingService = {
   bookingRoomById,
   getBooking,
+  getBookingWithHotel,
   changeBookingRoomById,
   checkEnrollmentTicket,
   checkValidBooking,
   listBookingByHotelId,
+  countBookingsByRoomId,
+  listBookingsByRoomId,
 };
 
 export default bookingService;
