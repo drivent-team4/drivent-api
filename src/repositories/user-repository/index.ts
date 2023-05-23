@@ -22,9 +22,10 @@ async function create(data: Prisma.UserUncheckedCreateInput) {
 }
 
 async function findByGithubEmail(githubEmail: string, select?: Prisma.UserSelect) {
+  const email = githubEmail;
   const params: Prisma.UserFindUniqueArgs = {
     where: {
-      githubEmail,
+      email,
     },
   };
 

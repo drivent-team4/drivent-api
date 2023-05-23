@@ -1,5 +1,6 @@
 import { Activities, PrismaClient } from '@prisma/client';
 import dayjs from 'dayjs';
+
 const prisma = new PrismaClient();
 
 async function main() {
