@@ -20,6 +20,7 @@ model User {
   Session     Session[]
   Enrollment  Enrollment[]
   Booking     Booking[]
+  Activities  Activities[]
 }
 
 model Session {
@@ -143,4 +144,15 @@ model Booking {
 model Teste {
   id   Int    @id @default(autoincrement())
   name String
+}
+
+model Activities {
+  id        Int       @id @default(autoincrement())
+  name      String
+  capacity  Int
+  User      User[]
+  startAt   DateTime  
+  endAt     DateTime  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
