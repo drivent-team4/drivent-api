@@ -1,4 +1,4 @@
-import { Activities, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import dayjs from 'dayjs';
 
 const prisma = new PrismaClient();
@@ -189,17 +189,96 @@ async function main() {
 
   console.log({ event });
 
-  const activities = await prisma.activities.findFirst();
-  if (!activities) {
-    const create = await prisma.activities.create({
-      data: {
-        name: 'How to be successful as dev',
-        capacity: 30,
-        startAt: dayjs().year(2023).month(5).day(29).hour(9).toDate(),
-        endAt: dayjs().year(2023).month(5).day(29).hour(10).toDate(),
-      },
+  const auditory = await prisma.auditory.findFirst();
+  if (!auditory) {
+    await prisma.auditory.createMany({
+      data: [
+        {
+          name: 'Auditório Principal',
+        },
+        {
+          name: 'Auditório Lateral',
+        },
+        {
+          name: 'Sala de Workshop',
+        },
+      ],
     });
-    console.log({ create });
+  }
+
+  const principal = await prisma.auditory.findFirst({
+    where: {
+      name: 'Auditório Principal',
+    },
+  });
+
+  const lateral = await prisma.auditory.findFirst({
+    where: {
+      name: 'Auditório Lateral',
+    },
+  });
+
+  const workshop = await prisma.auditory.findFirst({
+    where: {
+      name: 'Sala de Workshop',
+    },
+  });
+
+  const activity = await prisma.activity.findFirst();
+  if (workshop && lateral && principal && !activity) {
+    await prisma.activity.createMany({
+      data: [
+        {
+          name: 'Como ter sucesso como desenvolvedor',
+          auditoryId: Number(workshop.id),
+          capacity: 30,
+          startAt: dayjs().year(2023).month(5).day(29).hour(9).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(10).toDate(),
+        },
+        {
+          name: 'Tecnologia Blockchain',
+          auditoryId: Number(workshop.id),
+          capacity: 30,
+          startAt: dayjs().year(2023).month(5).day(29).hour(13).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(14).toDate(),
+        },
+        {
+          name: 'Ciência de Dados para Iniciantes',
+          auditoryId: Number(workshop.id),
+          capacity: 30,
+          startAt: dayjs().year(2023).month(5).day(29).hour(15).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(16).toDate(),
+        },
+        {
+          name: 'Introdução ao Desenvolvimento Web',
+          auditoryId: Number(lateral.id),
+          capacity: 20,
+          startAt: dayjs().year(2023).month(5).day(29).hour(11).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(12).toDate(),
+        },
+        {
+          name: 'Noções de Cibersegurança',
+          auditoryId: Number(lateral.id),
+          capacity: 20,
+          startAt: dayjs().year(2023).month(5).day(29).hour(13).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(14).toDate(),
+        },
+        {
+          name: 'Dominando JavaScript',
+          auditoryId: Number(principal.id),
+          capacity: 40,
+          startAt: dayjs().year(2023).month(5).day(29).hour(13).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(14).toDate(),
+        },
+        {
+          name: 'Programação Avançada em Python',
+          auditoryId: Number(principal.id),
+          capacity: 40,
+          startAt: dayjs().year(2023).month(5).day(29).hour(9).toDate(),
+          endAt: dayjs().year(2023).month(5).day(29).hour(10).toDate(),
+        },
+      ],
+    });
   }
 }
 
