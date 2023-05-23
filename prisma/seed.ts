@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Activities, PrismaClient } from '@prisma/client';
 import dayjs from 'dayjs';
 
 const prisma = new PrismaClient();
@@ -188,6 +188,19 @@ async function main() {
   }
 
   console.log({ event });
+
+  const activities = await prisma.activities.findFirst();
+  if (!activities) {
+    const create = await prisma.activities.create({
+      data: {
+        name: 'How to be successful as dev',
+        capacity: 30,
+        startAt: dayjs().year(2023).month(5).day(29).hour(9).toDate(),
+        endAt: dayjs().year(2023).month(5).day(29).hour(10).toDate(),
+      },
+    });
+    console.log({ create });
+  }
 }
 
 main()
