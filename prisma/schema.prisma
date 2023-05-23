@@ -11,12 +11,12 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique @db.VarChar(255)
-  password    String       @db.VarChar(255)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  githubEmail String?      @unique @db.VarChar(255)
+  id          Int           @id @default(autoincrement())
+  email       String        @unique @db.VarChar(255)
+  password    String        @db.VarChar(255)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  githubEmail String?       @unique @db.VarChar(255)
   Session     Session[]
   Enrollment  Enrollment[]
   Booking     Booking[]
@@ -146,23 +146,33 @@ model Teste {
   name String
 }
 
-model Activities {
-  id           Int       @id @default(autoincrement())
-  name         String
-  capacity     Int
-  Inscription  Inscription[]
-  startAt      DateTime  
-  endAt        DateTime  
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+model Auditory {
+  id       Int        @id @default(autoincrement())
+  name     String
+  Activity Activity[]
+}
+
+model Activity {
+  id          Int           @id @default(autoincrement())
+  name        String
+  capacity    Int
+  auditoryId  Int
+  Auditory    Auditory      @relation(fields: [auditoryId], references: [id])
+  Inscription Inscription[]
+  startAt     DateTime
+  endAt       DateTime
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([startAt])
 }
 
 model Inscription {
-  id            Int      @id @default(autoincrement())
-  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        Int
-  Activities    Activities @relation(fields: [activitiesId], references: [id])
-  activitiesId  Int 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt 
+  id         Int      @id @default(autoincrement())
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  Activity   Activity @relation(fields: [ActivityId], references: [id])
+  ActivityId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
