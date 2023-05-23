@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import dayjs from 'dayjs';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -28,7 +29,7 @@ async function main() {
       ],
     });
   }
-  
+
   const hotel = await prisma.hotel.findFirst();
   if (!hotel) {
     await prisma.hotel.createMany({
