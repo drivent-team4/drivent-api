@@ -171,8 +171,8 @@ model Inscription {
   id         Int      @id @default(autoincrement())
   User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
-  Activity   Activity @relation(fields: [ActivityId], references: [id])
-  ActivityId Int
+  Activity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
