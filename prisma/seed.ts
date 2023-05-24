@@ -280,6 +280,34 @@ async function main() {
       ],
     });
   }
+
+  let inscription = await prisma.inscription.findMany();
+  if(!inscription) {
+    await prisma.user.createMany({
+      data: [
+        {
+          email: 'email@email.com',
+          password: '123456798'
+        },
+        {
+          email: 'email2@email.com',
+          password: '123456798'
+        },
+      ]
+    })
+    await prisma.inscription.createMany({
+      data: [
+        {
+          activityId: 1,
+          userId: 1
+        },
+        {
+          activityId: 1,
+          userId: 2
+        },        
+      ]
+    });
+  }
 }
 
 main()
