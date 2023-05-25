@@ -29,11 +29,11 @@ export async function postInscription(req: AuthenticatedRequest, res: Response, 
 
 export async function deleteInscription(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { userId } = req;
-  const activityId = Number(req.body.activityId);
+  const inscriptionId = Number(req.body.inscriptionId);
 
-  if (!activityId) return next(badRequestError);
+  if (!inscriptionId) return next(badRequestError);
   try {
-    const result = await activityService.deleteInscription(userId, activityId);
+    const result = await activityService.deleteInscription(userId, inscriptionId);
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     next(error);
