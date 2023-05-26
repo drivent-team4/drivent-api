@@ -17,7 +17,7 @@ async function postInscription(userId: number, activityId: number) {
 
 async function deleteInscription(userId: number, inscriptionId: number) {
   const inscription = await activitiesRepository.findInscription(inscriptionId);
-  if (!inscription) throw notFoundError;
+  if (!inscription) throw notFoundError();
 
   if (!(inscription.userId === userId)) throw forBiddenError();
 
