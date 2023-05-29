@@ -1,13 +1,9 @@
 import { Router } from 'express';
 import { authenticateToken } from '@/middlewares';
-import { deleteInscription, getActivities, postInscription } from '@/controllers/activities-controller';
+import { getActivities, postInscription } from '@/controllers/activities-controller';
 
 const activitiesRouter = Router();
 
-activitiesRouter
-  .all('/*', authenticateToken)
-  .get('/', getActivities)
-  .post('/', postInscription)
-  .delete('/', deleteInscription);
+activitiesRouter.all('/*', authenticateToken).get('/', getActivities).post('/', postInscription);
 
 export { activitiesRouter };
