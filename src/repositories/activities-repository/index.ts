@@ -16,10 +16,11 @@ async function getActivityById(id: number) {
   });
 }
 
-async function findInscription(id: number) {
-  return await prisma.inscription.findUnique({
+async function findInscription(userId: number, activityId: number) {
+  return await prisma.inscription.findFirst({
     where: {
-      id,
+      userId,
+      activityId,
     },
   });
 }

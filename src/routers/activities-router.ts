@@ -8,6 +8,6 @@ activitiesRouter
   .all('/*', authenticateToken)
   .get('/', getActivities)
   .post('/', postInscription)
-  .delete('/', deleteInscription);
+  .delete('/:activityId', deleteInscription);
 
 export { activitiesRouter };
