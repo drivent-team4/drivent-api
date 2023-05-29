@@ -6,12 +6,32 @@ async function getAllActivity() {
   return await activitiesRepository.getActivities();
 }
 
+async function checkScheduleConflict(userId: number, activityId: number) {
+  const userActivities = await activitiesRepository.getActivitiesByUserId(userId);
+  const newActivity = await activitiesRepository.getActivityById(activityId);
+  const newActivityStartTime = new Date(newActivity.startAt);
+  const newActivityEndTime = new Date(newActivity.endAt);
+  const checkConflict = userActivities.some((inscription) => {
+    const activityStartTime = new Date(inscription.Activity.startAt);
+    const activityEndTime = new Date(inscription.Activity.endAt);
+    return (
+      (newActivityStartTime >= activityStartTime && newActivityStartTime < activityEndTime) ||
+      (newActivityEndTime > activityStartTime && newActivityEndTime <= activityEndTime)
+    );
+  });
+  if (checkConflict) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 async function postInscription(userId: number, activityId: number) {
   const { capacity } = await activitiesRepository.getActivityById(activityId);
   const inscriptions = await activitiesRepository.countInscriptions(activityId);
-
+  const checkConflict = await checkScheduleConflict(userId, activityId);
   if (capacity <= inscriptions) throw conflictError('Esgotado!');
-
+  if (checkConflict) throw conflictError('Há conflito de horários.');
   return await activitiesRepository.postInscription(userId, activityId);
 }
 

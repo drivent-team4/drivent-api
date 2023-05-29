@@ -18,8 +18,8 @@ import {
   hotelsRouter,
   bookingRouter,
   roomsRouter,
+  activitiesRouter,
 } from '@/routers';
-import { activitiesRouter } from './routers/activities-router';
 
 const app = express();
 app
