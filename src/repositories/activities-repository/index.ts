@@ -45,14 +45,6 @@ async function postInscription(userId: number, activityId: number) {
   });
 }
 
-async function deleteInscription(inscriptionId: number) {
-  return await prisma.inscription.delete({
-    where: {
-      id: inscriptionId,
-    },
-  });
-}
-
 async function countInscriptions(activityId: number) {
   return await prisma.inscription.count({
     where: {
@@ -65,7 +57,6 @@ const activitiesRepository = {
   getActivities,
   getActivitiesByUserId,
   postInscription,
-  deleteInscription,
   getActivityById,
   countInscriptions,
   findInscription,
