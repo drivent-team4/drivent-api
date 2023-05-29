@@ -16,16 +16,6 @@ async function getActivityById(id: number) {
   });
 }
 
-async function getActivitiesByUserId(userId: number) {
-  return await prisma.inscription.findMany({
-    where: {
-      userId,
-    },
-    include: {
-      Activity: true,
-    },
-  });
-}
 
 async function findInscription(userId: number, activityId: number) {
   return await prisma.inscription.findFirst({
@@ -53,6 +43,14 @@ async function countInscriptions(activityId: number) {
   });
 }
 
+async function deleteInscription(inscriptionId: number) {
+  return await prisma.inscription.delete({
+    where: {
+      id: inscriptionId,
+    },
+  });
+}
+
 const activitiesRepository = {
   getActivities,
   getActivitiesByUserId,
@@ -60,6 +58,7 @@ const activitiesRepository = {
   getActivityById,
   countInscriptions,
   findInscription,
+  deleteInscription,
 };
 
 export default activitiesRepository;
