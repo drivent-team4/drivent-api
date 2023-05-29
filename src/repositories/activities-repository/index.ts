@@ -16,6 +16,17 @@ async function getActivityById(id: number) {
   });
 }
 
+async function getActivitiesByUserId(userId: number) {
+  return await prisma.inscription.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      Activity: true,
+    },
+  });
+}
+
 async function findInscription(userId: number, activityId: number) {
   return await prisma.inscription.findFirst({
     where: {
@@ -52,6 +63,7 @@ async function countInscriptions(activityId: number) {
 
 const activitiesRepository = {
   getActivities,
+  getActivitiesByUserId,
   postInscription,
   deleteInscription,
   getActivityById,
