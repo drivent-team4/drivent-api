@@ -26,3 +26,16 @@ export async function postInscription(req: AuthenticatedRequest, res: Response, 
     next(error);
   }
 }
+
+export async function deleteInscription(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { userId } = req;
+  const activityId = Number(req.params.activityId);
+
+  if (!activityId) return next(badRequestError);
+  try {
+    const result = await activityService.deleteInscription(userId, activityId);
+    return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    next(error);
+  }
+}
