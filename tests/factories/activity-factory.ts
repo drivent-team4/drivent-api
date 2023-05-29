@@ -1,7 +1,7 @@
-import { Address, Booking, Enrollment, Room, Ticket, TicketStatus, TicketType, Activity } from '@prisma/client';
 import faker from '@faker-js/faker';
-import dayjs from 'dayjs';
+import { Activity } from '@prisma/client';
 import { prisma } from '@/config';
+import dayjs from 'dayjs';
 
 type CreateActivityParams = {
   capacity: number;
@@ -42,4 +42,34 @@ export function createInscription(userId: number, activityId: number) {
       activityId,
     },
   });
+
+
+export function getVeryFutureActivityByIdMock(id?: number) {
+  const expect: Activity = {
+    id: id || 1,
+    name: 'ActivityName',
+    capacity: 10,
+    auditoryId: 1,
+    startAt: new Date('31/01/2500'),
+    endAt: new Date('01/01/2500'),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  return expect;
+}
+
+export function getNowActivityByIdMock(id?: number) {
+  const expect: Activity = {
+    id: id || 1,
+    name: 'ActivityName',
+    capacity: 10,
+    auditoryId: 1,
+    startAt: new Date(),
+    endAt: new Date('01/01/2500'),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  return expect;
 }

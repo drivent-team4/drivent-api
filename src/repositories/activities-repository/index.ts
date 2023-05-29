@@ -16,6 +16,7 @@ async function getActivityById(id: number) {
   });
 }
 
+
 async function findInscription(userId: number, activityId: number) {
   return await prisma.inscription.findFirst({
     where: {
@@ -52,6 +53,7 @@ async function deleteInscription(inscriptionId: number) {
 
 const activitiesRepository = {
   getActivities,
+  getActivitiesByUserId,
   postInscription,
   getActivityById,
   countInscriptions,
