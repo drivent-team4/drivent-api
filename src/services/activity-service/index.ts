@@ -35,8 +35,8 @@ async function postInscription(userId: number, activityId: number) {
   return await activitiesRepository.postInscription(userId, activityId);
 }
 
-async function deleteInscription(userId: number, inscriptionId: number) {
-  const inscription = await activitiesRepository.findInscription(inscriptionId);
+async function deleteInscription(userId: number, activityId: number) {
+  const inscription = await activitiesRepository.findInscription(userId, activityId);
   if (!inscription) throw notFoundError();
 
   if (!(inscription.userId === userId)) throw forBiddenError();
@@ -51,7 +51,7 @@ async function deleteInscription(userId: number, inscriptionId: number) {
       'You cannot cancel your registration in the last 24 hours before the start of the event.',
     );
 
-  return await activitiesRepository.deleteInscription(inscriptionId);
+  return await activitiesRepository.deleteInscription(inscription.id);
 }
 
 const activityService = {
